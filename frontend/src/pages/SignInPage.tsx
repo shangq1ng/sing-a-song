@@ -17,7 +17,7 @@ export function SignInPage() {
           <Spinner label="Checking your session" />
         ) : user ? (
           <>
-            <h1>Welcome, {user.username}</h1>
+            <h1>Welcome, {user.display_name.trim() || user.username}</h1>
             <p>You're signed in and ready to go.</p>
             <Link to="/" className="btn btn-primary btn-block">
               <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />

@@ -128,16 +128,7 @@ pub async fn logout(
     State(config): State<DatabaseConfig>,
     session: Session,
 ) -> Result<impl IntoResponse, DatabaseError> {
-    let user_id: String = session.get("user_id").await.map_err(|e| {
-        tracing::error!("Couldn't find sub in session {e:?}");
-        DatabaseError::NotFound
-    })?.ok_or(DatabaseError::NotFound)?;
-
-    let id = Uuid::from_str(&user_id).map_err(|_| DatabaseError::NotFound)?;
-
-    sqlx::query_as!(UserEntity, "DELETE FROM users WHERE id = $1",
-    id
-    ).execute(&config.db).await?;
+    session.flush().await.map_err(|e| { tracing::error!("{e:?}"); DatabaseError::Unauthorized })?;
     Ok(Redirect::to("/home"))
 }
 
@@ -153,12 +144,14 @@ pub async fn update_display_name(
 
     let id = Uuid::from_str(&user_id).map_err(|_| DatabaseError::NotFound)?;
 
-    sqlx::query_as!(
+   if !payload.display_name.is_empty() {
+       sqlx::query_as!(
         UserEntity,
         "UPDATE users SET display_name = $1 WHERE id = $2",
         payload.display_name,
         id,
     ).execute(&config.db).await?;
+   }
 
     Ok(StatusCode::NO_CONTENT)
 }

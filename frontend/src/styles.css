@@ -692,6 +692,63 @@ ol {
   font-size: 0.9375rem;
 }
 
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.field-input:focus {
+  border-color: var(--border-strong);
+  background: var(--bg-raised);
+}
+
+.profile-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-note {
+  font-size: 0.8125rem;
+}
+
+.form-note-success {
+  color: var(--success);
+}
+
+.form-note-error {
+  color: var(--danger);
+}
+
 .profile-meta {
   display: grid;
   gap: 1rem;

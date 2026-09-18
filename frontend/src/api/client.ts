@@ -101,6 +101,35 @@ export function signInUrl(): string {
   return endpoint('/login');
 }
 
+export async function updateDisplayName(displayName: string): Promise<void> {
+  let response: Response;
+
+  try {
+    response = await fetch(endpoint('/profile/me'), {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ display_name: displayName }),
+    });
+  } catch {
+    throw new ApiError('network');
+  }
+
+  if (response.ok) {
+    return;
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    throw new ApiError('unauthorized');
+  }
+
+  if (response.status === 404) {
+    throw new ApiError('notFound');
+  }
+
+  throw new ApiError('server');
+}
+
 export async function logout(): Promise<void> {
   let response: Response;
 

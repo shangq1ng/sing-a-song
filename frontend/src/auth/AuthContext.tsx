@@ -8,7 +8,12 @@ import {
   type ReactNode,
 } from 'react';
 
-import { fetchCurrentUser, logout as apiLogout, signInUrl } from '../api/client';
+import {
+  fetchCurrentUser,
+  logout as apiLogout,
+  signInUrl,
+  updateDisplayName as apiUpdateDisplayName,
+} from '../api/client';
 import type { UserProfile } from '../api/types';
 
 interface AuthContextValue {
@@ -18,6 +23,7 @@ interface AuthContextValue {
   signIn: () => void;
   signOut: () => void;
   refresh: () => void;
+  updateDisplayName: (displayName: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -87,9 +93,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
   }, []);
 
+  const updateDisplayName = useCallback(async (displayName: string) => {
+    await apiUpdateDisplayName(displayName);
+    const profile = await fetchCurrentUser();
+    setUser(profile);
+  }, []);
+
   const value = useMemo<AuthContextValue>(
-    () => ({ user, checking, pending, signIn, signOut, refresh }),
-    [user, checking, pending, signIn, signOut, refresh],
+    () => ({ user, checking, pending, signIn, signOut, refresh, updateDisplayName }),
+    [user, checking, pending, signIn, signOut, refresh, updateDisplayName],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -40,9 +40,9 @@ pub async fn app() -> anyhow::Result<()> {
         .route("/new/song", post(create_song))
         .route("/music/{song_name}", get(get_song_by_name))
         .route("/profile/me", get(get_user))
+        .route("/profile/me", patch(update_display_name))
         .route("/artist/{artist}", get(get_all_songs_by_artist))
         .route("/logout", get(logout))
-        .route("/profile/me", patch(update_display_name))
         .layer(
             TraceLayer::new_for_http()
                 .on_request(DefaultOnRequest::new().level(Level::INFO))

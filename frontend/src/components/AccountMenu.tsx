@@ -22,7 +22,7 @@ export function AccountMenu() {
     <details className="account-menu">
       <summary className="account-summary" aria-label="Account menu">
         <img className="avatar" src={user.avatar_url} alt="" />
-        <span className="account-name">{user.username}</span>
+        <span className="account-name">{user.display_name.trim() || user.username}</span>
         <i className="fa-solid fa-chevron-down" aria-hidden="true" />
       </summary>
       <div className="account-dropdown">
