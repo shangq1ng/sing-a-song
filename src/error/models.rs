@@ -119,7 +119,7 @@ impl IntoResponse for DatabaseError {
             Self::SqlxError(e) => {
                 tracing::error!("Sqlx Error: {e:?}");
                 StatusCode::INTERNAL_SERVER_ERROR
-            },
+            }
             Self::Conflict => StatusCode::CONFLICT,
             Self::NotFound => StatusCode::NOT_FOUND,
             Self::Forbidden => StatusCode::FORBIDDEN,
@@ -128,4 +128,3 @@ impl IntoResponse for DatabaseError {
         database_error.into_response()
     }
 }
-

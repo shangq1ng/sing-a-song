@@ -1,5 +1,6 @@
 import { SongList } from './SongList';
 import type { SongSummary } from '../api/types';
+import { humanizeName } from '../utils/slug';
 
 interface ArtistResultsProps {
   artist: string;
@@ -10,7 +11,7 @@ export function ArtistResults({ artist, songs }: ArtistResultsProps) {
   return (
     <section className="results">
       <header className="results-head">
-        <h2>Songs by {artist}</h2>
+        <h2>Songs by {humanizeName(artist)}</h2>
         <span className="results-count">{songs.length} result(s)</span>
       </header>
       <SongList songs={songs} />

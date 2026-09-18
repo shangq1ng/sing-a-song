@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT sub, id, username, display_name, email, created_at, locale, avatar_url\n         FROM users WHERE id = $1",
+  "query": "SELECT sub, id, username, display_name, email, created_at, locale, avatar_url\n         FROM users WHERE sub = $1",
   "describe": {
     "columns": [
       {
@@ -94,19 +94,19 @@
     ],
     "parameters": {
       "Left": [
-        "Uuid"
+        "Text"
       ]
     },
     "nullable": [
       false,
       false,
       false,
-      true,
+      false,
       false,
       false,
       true,
       false
     ]
   },
-  "hash": "90044675808a2463f8de43b3a80131de598662cd076397cbcf43cfb01e87cc02"
+  "hash": "d0c88e820acd36e9f1183206757d4a8976f2c2b511d463dfcd27ef2dcc55b8b5"
 }

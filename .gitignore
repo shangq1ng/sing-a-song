@@ -6,3 +6,12 @@
 
 .idea/
 opencode.jsonc
+cookies.txt
+
+/data/
+/scripts/output/
+__pycache__/
+.venv/
+
+scripts
+payload.json

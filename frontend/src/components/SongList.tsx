@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
 import type { SongSummary } from '../api/types';
-import { songUrl } from '../utils/slug';
+import { humanizeName, songUrl } from '../utils/slug';
 
 interface SongListItemProps {
   song: SongSummary;
@@ -9,8 +9,8 @@ interface SongListItemProps {
 }
 
 export function SongListItem({ song, showArtist = false }: SongListItemProps) {
-  const featured = song.featured_artist ? `feat. ${song.featured_artist}` : null;
-  const meta = [showArtist ? song.artist : null, featured, song.producer]
+  const featured = song.featured_artist ? `feat. ${humanizeName(song.featured_artist)}` : null;
+  const meta = [showArtist ? humanizeName(song.artist) : null, featured, song.producer]
     .filter(Boolean)
     .join(' · ');
 
@@ -20,7 +20,7 @@ export function SongListItem({ song, showArtist = false }: SongListItemProps) {
         <i className="fa-solid fa-music" />
       </span>
       <span className="song-link-body">
-        <span className="song-link-title">{song.song_name}</span>
+        <span className="song-link-title">{humanizeName(song.song_name)}</span>
         <span className="song-link-meta">{meta}</span>
       </span>
       <i className="fa-solid fa-chevron-right" aria-hidden="true" />

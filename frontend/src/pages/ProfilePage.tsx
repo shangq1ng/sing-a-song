@@ -24,7 +24,11 @@ function ProfileCard({ user, pending, signOut, updateDisplayName }: ProfileCardP
   }, [user.display_name]);
 
   const trimmed = displayName.trim();
-  const canSave = trimmed.length > 0 && trimmed !== user.display_name && status !== 'saving';
+  const canSave =
+    trimmed.length > 0 &&
+    trimmed.length <= 32 &&
+    trimmed !== user.display_name &&
+    status !== 'saving';
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,7 +60,7 @@ function ProfileCard({ user, pending, signOut, updateDisplayName }: ProfileCardP
             className="field-input"
             type="text"
             value={displayName}
-            maxLength={60}
+            maxLength={32}
             autoComplete="off"
             onChange={event => {
               setDisplayName(event.target.value);

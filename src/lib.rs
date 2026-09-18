@@ -1,18 +1,18 @@
 use crate::auth::handlers::{auth_client, oauth_callback, start_auth};
 use crate::auth::models::AuthConfig;
 use crate::config::models::DatabaseConfig;
+use crate::db::handlers::{
+    create_song, get_all_songs_by_artist, get_song_by_name, get_user, logout, update_display_name,
+};
 use crate::session::handlers::start_redis;
 use axum::Router;
 use axum::routing::{get, patch, post};
 use dotenvy::dotenv;
-use tower_http::trace::{
-    DefaultOnFailure, DefaultOnRequest, DefaultOnResponse, TraceLayer,
-};
+use tower_http::trace::{DefaultOnFailure, DefaultOnRequest, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, fmt};
-use crate::db::handlers::{create_song, get_all_songs_by_artist, get_song_by_name, get_user, logout, update_display_name};
 
 pub mod auth;
 pub mod config;
@@ -58,4 +58,3 @@ pub async fn app() -> anyhow::Result<()> {
 
     Ok(())
 }
-

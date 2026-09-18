@@ -1,8 +1,8 @@
+use crate::error::models::DatabaseError;
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use sqlx::types::Uuid;
 use sqlx::types::chrono::{DateTime, Utc};
-use crate::error::models::DatabaseError;
 
 // Entities
 #[derive(Debug, FromRow)]
@@ -21,7 +21,7 @@ pub struct UserEntity {
 pub struct SongEntity {
     pub artist: String,
     pub featured_artist: Option<String>,
-    pub producer: String,
+    pub producer: Option<String>,
     pub song_name: String,
     pub lyrics_key: String,
 }
@@ -36,7 +36,7 @@ pub struct UpdateDisplayNameRequestDTO {
 pub struct CreateSongRequest {
     pub artist: String,
     pub featured_artist: Option<String>,
-    pub producer: String,
+    pub producer: Option<String>,
     pub song_name: String,
     pub lyrics_key: String,
 }
@@ -45,16 +45,15 @@ pub struct CreateSongRequest {
 pub struct GetAllSongByAnArtist {
     pub artist: String,
     pub featured_artist: Option<String>,
-    pub producer: String,
+    pub producer: Option<String>,
     pub song_name: String,
 }
-
 
 #[derive(Debug, Serialize)]
 pub struct UserResponseSong {
     pub artist: String,
     pub featured_artist: Option<String>,
-    pub producer: String,
+    pub producer: Option<String>,
     pub song_name: String,
     pub lyric: String,
 }

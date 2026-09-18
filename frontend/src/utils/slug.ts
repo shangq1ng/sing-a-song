@@ -23,6 +23,14 @@ export function slugify(input: string): string {
   return slug;
 }
 
+export function humanizeName(value: string): string {
+  return value
+    .split(/[-\s]+/)
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 export function alternateSlug(slug: string): string {
   return slug
     .split('-')

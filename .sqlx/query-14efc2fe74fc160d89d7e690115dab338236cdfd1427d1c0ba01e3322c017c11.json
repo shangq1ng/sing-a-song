@@ -1,26 +1,28 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT id from users",
+  "query": "SELECT sub FROM users WHERE sub = $1",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "id",
-        "type_info": "Uuid",
+        "name": "sub",
+        "type_info": "Text",
         "origin": {
           "Table": {
             "table": "users",
-            "name": "id"
+            "name": "sub"
           }
         }
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Text"
+      ]
     },
     "nullable": [
       false
     ]
   },
-  "hash": "39c157693639bfbb25ccc6f375bd386f1c78bb9e50901de0a092b9f03ac6a57c"
+  "hash": "14efc2fe74fc160d89d7e690115dab338236cdfd1427d1c0ba01e3322c017c11"
 }

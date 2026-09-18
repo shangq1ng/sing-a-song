@@ -1,4 +1,5 @@
 import type { Song } from '../api/types';
+import { humanizeName } from '../utils/slug';
 
 export function SongCard({ song }: { song: Song }) {
   return (
@@ -8,20 +9,20 @@ export function SongCard({ song }: { song: Song }) {
           <i className="fa-solid fa-compact-disc" />
         </span>
         <div>
-          <h1 className="song-title">{song.song_name}</h1>
-          <p className="song-artist">{song.artist}</p>
+          <h1 className="song-title">{humanizeName(song.song_name)}</h1>
+          <p className="song-artist">{humanizeName(song.artist)}</p>
         </div>
       </header>
 
       <dl className="song-meta">
         <div>
           <dt>Artist</dt>
-          <dd>{song.artist}</dd>
+          <dd>{humanizeName(song.artist)}</dd>
         </div>
         {song.featured_artist ? (
           <div>
             <dt>Featured</dt>
-            <dd>{song.featured_artist}</dd>
+            <dd>{humanizeName(song.featured_artist)}</dd>
           </div>
         ) : null}
         <div>

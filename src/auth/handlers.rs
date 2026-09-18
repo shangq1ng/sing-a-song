@@ -1,5 +1,6 @@
 use crate::auth::models::{AuthConfig, Client, ProviderResponseDTO, ProviderUserResponseDTO};
 use crate::db::handlers::create_user;
+use crate::db::helpers::check_if_user_already_in;
 use crate::error::models::AuthError;
 use anyhow::Context;
 use axum::extract::{Query, State};
@@ -108,15 +109,19 @@ pub async fn oauth_callback(
         .json::<ProviderUserResponseDTO>()
         .await?;
 
-    let usr_data = create_user(
-        config.config,
-        &fetch_user_data
-    )
-    .await
-    .context("Failed to create user")?;
-
-    session.cycle_id().await?;
-    session.insert("user_id", &usr_data).await?;
-
-    Ok(Redirect::to("http://127.0.0.1:3000/"))
+    if check_if_user_already_in(&config.config, &fetch_user_data)
+        .await
+        .is_ok()
+    {
+        session.cycle_id().await?;
+        session.insert("user_id", fetch_user_data.sub).await?;
+        Ok(Redirect::to("http://127.0.0.1:3000/"))
+    } else {
+        let usr_data = create_user(config.config, &fetch_user_data)
+            .await
+            .context("Failed to create user")?;
+        session.cycle_id().await?;
+        session.insert("user_id", &usr_data).await?;
+        Ok(Redirect::to("http://127.0.0.1:3000/"))
+    }
 }
