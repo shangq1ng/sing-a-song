@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT artist, featured_artist, producer, song_name, lyrics_key FROM songs WHERE song_name = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "artist",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "songs",
+            "name": "artist"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "featured_artist",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "songs",
+            "name": "featured_artist"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "producer",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "songs",
+            "name": "producer"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "song_name",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "songs",
+            "name": "song_name"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "lyrics_key",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "songs",
+            "name": "lyrics_key"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "7f0c67823721b2594092a86dccdb73f071e1fbd9f72ebb6804b28da6b531e6f4"
+}

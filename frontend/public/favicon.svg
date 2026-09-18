@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sing a Song">
+  <rect width="64" height="64" rx="14" fill="#000000" />
+  <circle cx="22" cy="46" r="9" fill="#ffffff" />
+  <circle cx="46" cy="40" r="9" fill="#ffffff" />
+  <rect x="29" y="14" width="4" height="32" fill="#ffffff" />
+  <rect x="53" y="8" width="4" height="32" fill="#ffffff" />
+  <path d="M29 14 L57 8 L57 14 L29 20 Z" fill="#ffffff" />
+</svg>
