@@ -13,6 +13,7 @@ export function ProfilePage() {
       ) : user ? (
         <section className="profile-card">
           <img className="profile-avatar" src={user.avatar_url} alt="" />
+          <h1 className="profile-display-name">{user.display_name}</h1>
           <h1 className="profile-name">{user.username}</h1>
           <p className="profile-email">{user.email}</p>
 

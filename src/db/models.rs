@@ -10,7 +10,7 @@ pub struct UserEntity {
     pub sub: String,
     pub id: Uuid,
     pub username: String,
-    pub display_name: Option<String>,
+    pub display_name: String,
     pub avatar_url: String,
     pub locale: Option<String>,
     pub email: String,
@@ -27,6 +27,11 @@ pub struct SongEntity {
 }
 
 // DTOs
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateDisplayNameRequestDTO {
+    pub display_name: String,
+}
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateSongRequest {
     pub artist: String,
@@ -70,6 +75,7 @@ impl TryFrom<SongEntity> for UserResponseSong {
 #[derive(Debug, Serialize)]
 pub struct UserResponseDTO {
     pub username: String,
+    pub display_name: String,
     pub avatar_url: String,
     pub email: String,
     pub locale: Option<String>,
@@ -80,6 +86,7 @@ impl TryFrom<UserEntity> for UserResponseDTO {
     fn try_from(value: UserEntity) -> Result<Self, Self::Error> {
         Ok(Self {
             username: value.username,
+            display_name: value.display_name,
             email: value.email,
             avatar_url: value.avatar_url,
             locale: value.locale,

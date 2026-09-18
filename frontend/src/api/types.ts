@@ -15,6 +15,7 @@ export interface SongSummary {
 
 export interface UserProfile {
   username: string;
+  display_name: String;
   avatar_url: string;
   email: string;
   locale: string | null;

@@ -1,6 +1,6 @@
 use std::str::FromStr;
 use crate::config::models::DatabaseConfig;
-use crate::db::models::{CreateSongRequest, GetAllSongByAnArtist, SongEntity, UserEntity, UserResponseDTO, UserResponseSong};
+use crate::db::models::{CreateSongRequest, GetAllSongByAnArtist, SongEntity, UpdateDisplayNameRequestDTO, UserEntity, UserResponseDTO, UserResponseSong};
 use crate::error::models::DatabaseError;
 use axum::Json;
 use axum::extract::{Path, State};
@@ -17,10 +17,11 @@ pub async fn create_user(
     if !data.name.is_empty() && !data.email.is_empty() {
          sqlx::query_as!(
             UserEntity,
-            "INSERT INTO users (sub, username, email, locale, avatar_url)
-             VALUES ($1, $2, $3, $4, $5)",
+            "INSERT INTO users (sub, username, display_name, email, locale, avatar_url)
+             VALUES ($1, $2, $3, $4, $5, $6)",
             data.sub,
             data.name,
+             data.name,
             data.email,
             data.locale,
             data.picture,
@@ -138,4 +139,26 @@ pub async fn logout(
     id
     ).execute(&config.db).await?;
     Ok(Redirect::to("/home"))
+}
+
+pub async fn update_display_name(
+    State(config): State<DatabaseConfig>,
+    session: Session,
+    Json(payload): Json<UpdateDisplayNameRequestDTO>
+) -> Result<impl IntoResponse, DatabaseError> {
+    let user_id: String = session.get("user_id").await.map_err(|e| {
+        tracing::error!("{e:?}");
+        DatabaseError::NotFound
+    })?.ok_or(DatabaseError::NotFound)?;
+
+    let id = Uuid::from_str(&user_id).map_err(|_| DatabaseError::NotFound)?;
+
+    sqlx::query_as!(
+        UserEntity,
+        "UPDATE users SET display_name = $1 WHERE id = $2",
+        payload.display_name,
+        id,
+    ).execute(&config.db).await?;
+
+    Ok(StatusCode::NO_CONTENT)
 }

@@ -1,10 +1,9 @@
-use axum::response::Html;
 use crate::auth::handlers::{auth_client, oauth_callback, start_auth};
 use crate::auth::models::AuthConfig;
 use crate::config::models::DatabaseConfig;
 use crate::session::handlers::start_redis;
 use axum::Router;
-use axum::routing::{get, post};
+use axum::routing::{get, patch, post};
 use dotenvy::dotenv;
 use tower_http::trace::{
     DefaultOnFailure, DefaultOnRequest, DefaultOnResponse, TraceLayer,
@@ -13,7 +12,7 @@ use tracing::Level;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, fmt};
-use crate::db::handlers::{create_song, get_all_songs_by_artist, get_song_by_name, get_user, logout};
+use crate::db::handlers::{create_song, get_all_songs_by_artist, get_song_by_name, get_user, logout, update_display_name};
 
 pub mod auth;
 pub mod config;
@@ -36,7 +35,6 @@ pub async fn app() -> anyhow::Result<()> {
     };
 
     let app: Router = Router::new()
-        .route("/home", get(home))
         .route("/login", get(start_auth))
         .route("/login/callback", get(oauth_callback))
         .route("/new/song", post(create_song))
@@ -44,6 +42,7 @@ pub async fn app() -> anyhow::Result<()> {
         .route("/profile/me", get(get_user))
         .route("/artist/{artist}", get(get_all_songs_by_artist))
         .route("/logout", get(logout))
+        .route("/profile/me", patch(update_display_name))
         .layer(
             TraceLayer::new_for_http()
                 .on_request(DefaultOnRequest::new().level(Level::INFO))
@@ -60,6 +59,3 @@ pub async fn app() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn home() -> Html<&'static str> {
-    Html(include_str!("../template/home.html"))
-}
