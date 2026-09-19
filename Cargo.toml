@@ -19,7 +19,7 @@ subtle = "2.6.1"
 thiserror = "2.0.20"
 tokio = { version = "1.53.1", features = ["full"] }
 tower-http = { version = "0.7.1", features = ["cors", "trace"] }
-tower-sessions = "=0.14.0"
+tower-sessions = "=0.14.0" # tower-sessions-redis-store is not compatible with version 0.15 yet 
 tower-sessions-redis-store = "0.16.0"
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
